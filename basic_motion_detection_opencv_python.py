@@ -1,17 +1,22 @@
+
+#add Required Libraries
 import cv2
 import numpy as np
 
+# Open Video
 cap = cv2.VideoCapture('asad_vid.avi')
+#Division into Hight and Width
 frame_width = int( cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 
 frame_height =int( cap.get( cv2.CAP_PROP_FRAME_HEIGHT))
 
 fourcc = cv2.VideoWriter_fourcc('X','V','I','D')
-
+#Make Out File With Detedct Motion
 out = cv2.VideoWriter("output.avi", fourcc, 5.0, (1280,720))
-
+# applying Framming
 ret, frame1 = cap.read()
 ret, frame2 = cap.read()
+
 print(frame1.shape)
 while cap.isOpened():
     diff = cv2.absdiff(frame1, frame2)
@@ -20,7 +25,7 @@ while cap.isOpened():
     _, thresh = cv2.threshold(blur, 20, 255, cv2.THRESH_BINARY)
     dilated = cv2.dilate(thresh, None, iterations=3)
     contours, _ = cv2.findContours(dilated, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
+#Applying Trained Model
     for contour in contours:
         (x, y, w, h) = cv2.boundingRect(contour)
 
@@ -38,6 +43,7 @@ while cap.isOpened():
     ret, frame2 = cap.read()
     if cv2.waitKey(40) == 27:
         break
+ # Close Window and generate Output File   
 cv2.destroyAllWindows()
 cap.release()
 out.release()
