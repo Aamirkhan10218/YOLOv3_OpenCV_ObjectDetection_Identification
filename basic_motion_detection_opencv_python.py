@@ -17,7 +17,7 @@ out = cv2.VideoWriter("output.avi", fourcc, 5.0, (1280,720))
 ret, frame1 = cap.read()
 ret, frame2 = cap.read()
 
-print(frame1.shape)
+#print(frame1.shape)
 while cap.isOpened():
     diff = cv2.absdiff(frame1, frame2)
     gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
